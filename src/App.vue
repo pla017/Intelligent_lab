@@ -1,13 +1,10 @@
 <script setup lang="ts">
+import Header from '@/components/Header.vue'
 </script>
 
 <template>
   <div>
-    <nav>
-      <router-link to="/">首页</router-link> |
-      <router-link to="/about">关于</router-link>
-    </nav>
-
+    <Header />
     <router-view></router-view>
   </div>
 </template>
