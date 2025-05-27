@@ -8,6 +8,7 @@ import router from './router'
 
 import './assets/main.css'
 
+
 const app = createApp(App)
 
 // 注册所有图标

@@ -1,0 +1,98 @@
+@mixin center($direction:row) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction:$direction;
+}
+
+@mixin between($direction:row) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction:$direction;
+}
+
+@mixin column {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+
+@mixin itemBox($width:60px,$height:60px,$padding:4px,$margin:4px,$radius:6px) {
+  width:$width ;
+  height:$height;
+  padding: $padding;
+  margin:$margin;
+  border-radius: $radius;
+}
+
+@mixin backgroundImg($url){
+  background-image: url($url);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+@mixin ellipsis($max-width:100%,$clamp:1){
+  max-width:$max-width ;
+  overflow:hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: $clamp;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+
+@mixin no-scrollbar {
+  scroll-behavior: smooth;
+  -ms-overflow-style: none; /* 隐藏 IE 和 Edge 的滚动条 */
+  scrollbar-width: none; /* 隐藏 Firefox 的滚动条 */
+}
+@mixin scroll-y{
+  overflow-y: scroll;
+  @include no-scrollbar;
+}  
+
+@mixin scroll-x{
+  overflow-x: scroll;
+  @include no-scrollbar;
+}
+@mixin positon-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+// grid
+@mixin grid-col($cols: 1, $gap: 0) {
+  display: grid;
+  grid-template-columns: repeat($cols, 1fr);
+  gap: $gap;
+  place-items: center;
+}
+@mixin grid-row($rows: 1, $gap: 0) {
+  display: grid;
+  grid-auto-rows: repeat($rows, 1fr);
+  gap: $gap;
+  place-items: center;
+}
+@mixin grid-col-auto($gap: 0) {
+  display: grid;
+  grid-auto-columns: auto;
+  gap: $gap;
+  place-items: center;
+}
+@mixin grid-row-auto($gap: 0) {
+  display: grid;
+  grid-auto-rows: auto;
+  gap: $gap;
+  place-items: center;
+}
+
+
+
+$font12: 12px;
+$font14: 14px;
+$font16: 16px;
+$font24: 24px;

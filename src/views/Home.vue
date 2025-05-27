@@ -108,6 +108,24 @@
           <Alumni v-for="(item, index) in 8" :key="index" />
         </div>
       </div>
+
+      <!-- 成长足迹 -->
+      <div class="growth-container">
+        <TopTitle title="Growth footprint" subTitle="成长足迹" />
+        <GrwthSwiper />
+      </div>
+      <!-- 介绍视频 -->
+      <div class="video-container">
+        <TopTitle title="video" subTitle="介绍视频" />
+        <IntroduceVideo />
+      </div>
+      <!-- 动态 -->
+      <div class="dynamic-container">
+        <TopTitle title="dynamic condition" subTitle="动态" />
+        <div class="dynamic-content">
+           <Dynamic />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -118,7 +136,9 @@ import { ref } from "vue";
 import img from "@/assets/imgs/top.png";
 import TopTitle from "@/components/TopTitle.vue";
 import Alumni from "./components/Alumni.vue";
-
+import GrwthSwiper from "./components/GrwthSwiper.vue";
+import IntroduceVideo from "./components/introduceVideo.vue";
+import Dynamic from './components/Dynamic.vue'
 let imgs = ref([img, img, img]);
 </script>
 
@@ -132,7 +152,7 @@ let imgs = ref([img, img, img]);
     align-items: center;
     justify-content: center;
     position: absolute;
-    top: 5%;
+    top: 3%;
     z-index: 1000;
     left: 50%;
     transform: translateX(-50%);
@@ -335,7 +355,6 @@ let imgs = ref([img, img, img]);
       width: 100%;
       display: flex;
       flex-direction: column;
-    
 
       .alumni-content {
         width: 100%;
@@ -344,6 +363,23 @@ let imgs = ref([img, img, img]);
         margin-top: 70px;
         gap: 20px;
       }
+    }
+
+    .growth-container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 60px;
+    }
+    .video-container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 60px;
     }
   }
 }
