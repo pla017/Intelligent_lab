@@ -69,6 +69,11 @@
           </div>
         </div>
       </div>
+      <!-- 论文发表 -->
+      <div class="scicentics-paper">
+        <TopTitle title="Paper publication" subTitle="论文发表" />
+        <PagePaper />
+      </div>
     </div>
   </div>
 </template>
@@ -76,6 +81,7 @@
 import { ref, reactive } from "vue";
 import TitleText from "./components/TitleText.vue";
 import TopTitle from "@/components/TopTitle.vue";
+import PagePaper from "./components/PagePaper.vue";
 </script>
 <style scoped lang="scss">
 .scicentics {
@@ -207,6 +213,15 @@ import TopTitle from "@/components/TopTitle.vue";
           }
         }
       }
+    }
+
+    .scicentics-paper {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      
     }
   }
 }
