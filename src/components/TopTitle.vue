@@ -24,6 +24,7 @@ defineProps({
   position: relative;
 }
 .lab-head {
+  user-select: none;
   & > :first-child {
     font-family: "Gill Sans";
     font-style: normal;

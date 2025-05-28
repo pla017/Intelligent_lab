@@ -16,7 +16,7 @@ export default defineConfig({
     },
     preprocessorOptions: {
       scss: {
-        additionalData: `@import "@/styles/mixins.scss";`,
+        additionalData: `@use "@/styles/mixins.scss" as *;`,
       },
     },
   },

@@ -123,7 +123,7 @@
       <div class="dynamic-container">
         <TopTitle title="dynamic condition" subTitle="动态" />
         <div class="dynamic-content">
-           <Dynamic />
+          <Dynamic v-for="(item, index) in 4" :key="index" />
         </div>
       </div>
     </div>
@@ -138,7 +138,8 @@ import TopTitle from "@/components/TopTitle.vue";
 import Alumni from "./components/Alumni.vue";
 import GrwthSwiper from "./components/GrwthSwiper.vue";
 import IntroduceVideo from "./components/introduceVideo.vue";
-import Dynamic from './components/Dynamic.vue'
+import Dynamic from "./components/Dynamic.vue";
+import TitleText from './components/TitleText.vue'
 let imgs = ref([img, img, img]);
 </script>
 
@@ -213,6 +214,7 @@ let imgs = ref([img, img, img]);
         gap: 20px;
         padding: 0 100px;
         .introduction {
+          user-select: none;
           font-size: 14px;
           color: #999;
           justify-self: flex-start;
@@ -380,6 +382,18 @@ let imgs = ref([img, img, img]);
       align-items: center;
       justify-content: center;
       gap: 60px;
+    }
+
+    .dynamic-container {
+      width: 100%;
+
+      .dynamic-content {
+        width: 100%;
+        margin-top: 70px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
     }
   }
 }
