@@ -96,7 +96,7 @@ const handleCurrentChange = (val) => {
 <style scoped lang="scss">
 .paper-container {
   margin: 40px auto;
-  width: 70%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -6,8 +6,13 @@
         v-for="(item, idx) in tabList"
         :key="item.name"
         class="tab-item"
+        :class="{
+          'active': currentPath === item.path,
+          'active-parent': item.children?.some(child => currentPath === child.path || currentPath === item.path + child.path.split('#')[1])
+        }"
         @mouseenter="hoverIndex = idx"
         @mouseleave="hoverIndex = -1"
+        @click="handleNavigation(item.path)"
       >
         {{ item.name }}
         <div
@@ -24,6 +29,8 @@
                 v-for="child in item.children"
                 :key="child.name"
                 class="dropdown-item"
+                :class="{ 'active': currentPath === child.path || currentPath === item.path + child.path.split('#')[1] }"
+                @click.stop="handleNavigation(child.path)"
               >
                 {{ child.name }}
               </div>
@@ -35,24 +42,34 @@
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
+import { useRouter, useRoute } from 'vue-router';
+
+const router = useRouter();
+const route = useRoute();
+
+// 计算当前激活的路径
+const currentPath = computed(() => {
+  const fullPath = route.fullPath;
+  return fullPath.includes('#') ? fullPath : route.path;
+});
 
 let tabList = ref([
   {
     name: "关于我们",
-    path: "/about",
+    path: "/",
   },
   {
     name: "科学研究",
-    path: "/about",
+    path: "/scicentics",
     children: [
-      { name: "目前研究", path: "/current" },
-      { name: "发表论文", path: "/papers" },
+      { name: "目前研究", path: "/scicentics#current" },
+      { name: "发表论文", path: "/scicentics#papers" },
     ],
   },
   {
     name: "资源中心",
-    path: "/about",
+    path: "/resource",
     children: [
       { name: "目前研究", path: "/current" },
       { name: "发表论文", path: "/papers" },
@@ -66,6 +83,28 @@ let tabList = ref([
 ]);
 
 let hoverIndex = ref(-1);
+
+const handleNavigation = (path) => {
+  if (path.includes('#')) {
+    // 如果是同一页面的锚点导航
+    const currentPath = router.currentRoute.value.path;
+    const targetPath = path.split('#')[0];
+    
+    if (currentPath === targetPath) {
+      // 如果在同一页面，直接滚动
+      const targetId = path.split('#')[1];
+      const element = document.getElementById(targetId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      // 如果不在同一页面，先导航再滚动
+      router.push(path);
+    }
+  } else {
+    router.push(path);
+  }
+};
 </script>
 <style scoped lang="scss">
 .header {
@@ -93,6 +132,24 @@ let hoverIndex = ref(-1);
 
 .tab-item {
   position: relative;
+  padding-bottom: 4px;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background-color: #191919;
+    transition: width 0.3s ease;
+  }
+
+  &.active::after,
+  &.active-parent::after {
+    width: 100%;
+  }
 }
 
 .dropdown-arrow {
@@ -144,6 +201,14 @@ let hoverIndex = ref(-1);
   padding: 8px 24px;
   white-space: nowrap;
   cursor: pointer;
+  position: relative;
+  
+  &.active {
+    color: #191919;
+    font-weight: 500;
+    background: #f5f5f5;
+  }
+
   &:hover {
     background: #f5f5f5;
   }

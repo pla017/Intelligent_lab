@@ -5,7 +5,7 @@
     </div>
     <div class="scicentics-content">
       <!-- 目前研究 -->
-      <div class="scicentics-now">
+      <div class="scicentics-now" ref="currentResearch" id="current">
         <TopTitle title="Recent research" subTitle="目前研究" />
         <div class="scicentics-now-content">
           <span class="title"
@@ -70,7 +70,7 @@
         </div>
       </div>
       <!-- 论文发表 -->
-      <div class="scicentics-paper">
+      <div class="scicentics-paper" ref="papers" id="papers">
         <TopTitle title="Paper publication" subTitle="论文发表" />
         <PagePaper />
       </div>
@@ -78,10 +78,33 @@
   </div>
 </template>
 <script setup>
-import { ref, reactive } from "vue";
+import { ref, reactive, onMounted } from "vue";
 import TitleText from "./components/TitleText.vue";
 import TopTitle from "@/components/TopTitle.vue";
 import PagePaper from "./components/PagePaper.vue";
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
+const currentResearch = ref(null);
+const papers = ref(null);
+
+// 处理页面滚动
+const scrollToSection = (section) => {
+  const element = section === 'current' ? currentResearch.value : papers.value;
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth' });
+  }
+};
+
+// 监听路由变化
+onMounted(() => {
+  const hash = route.hash;
+  if (hash === '#current') {
+    scrollToSection('current');
+  } else if (hash === '#papers') {
+    scrollToSection('papers');
+  }
+});
 </script>
 <style scoped lang="scss">
 .scicentics {
