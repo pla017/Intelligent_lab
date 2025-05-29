@@ -29,7 +29,11 @@
                 v-for="child in item.children"
                 :key="child.name"
                 class="dropdown-item"
-                :class="{ 'active': currentPath === child.path || currentPath === item.path + child.path.split('#')[1] }"
+                :class="{ 
+                  'active': route.path === item.path && 
+                           (route.hash === '#' + child.path.split('#')[1] || 
+                           (!route.hash && !child.path.includes('#')))
+                }"
                 @click.stop="handleNavigation(child.path)"
               >
                 {{ child.name }}
@@ -42,16 +46,49 @@
   </div>
 </template>
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted, onUnmounted } from "vue";
 import { useRouter, useRoute } from 'vue-router';
 
 const router = useRouter();
 const route = useRoute();
 
-// 计算当前激活的路径
+// 添加当前锚点的响应式变量
+const currentHash = ref('');
+
+// 监听滚动更新当前锚点
+onMounted(() => {
+  window.addEventListener('scroll', updateCurrentHash);
+  updateCurrentHash(); // 初始化时执行一次
+});
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', updateCurrentHash);
+});
+
+// 更新当前锚点的函数
+const updateCurrentHash = () => {
+  const sections = document.querySelectorAll('[id]');
+  let currentSection = '';
+  
+  sections.forEach(section => {
+    const rect = section.getBoundingClientRect();
+    if (rect.top <= 100) { // 可以调整这个值来改变触发点
+      currentSection = section.id;
+    }
+  });
+  
+  currentHash.value = currentSection;
+};
+
+// 修改 currentPath 计算属性
 const currentPath = computed(() => {
   const fullPath = route.fullPath;
-  return fullPath.includes('#') ? fullPath : route.path;
+  const hash = currentHash.value;
+  // 如果有当前锚点，优先使用当前锚点
+  if (hash && route.path === '/scicentics') {
+    return `/scicentics#${hash}`;
+  }
+  return fullPath;
 });
 
 let tabList = ref([
@@ -86,19 +123,17 @@ let hoverIndex = ref(-1);
 
 const handleNavigation = (path) => {
   if (path.includes('#')) {
-    // 如果是同一页面的锚点导航
-    const currentPath = router.currentRoute.value.path;
-    const targetPath = path.split('#')[0];
-    
-    if (currentPath === targetPath) {
-      // 如果在同一页面，直接滚动
-      const targetId = path.split('#')[1];
-      const element = document.getElementById(targetId);
+    const [targetPath, hash] = path.split('#');
+    if (route.path === targetPath) {
+      // 如果在同一页面，使用scrollIntoView并更新hash
+      const element = document.getElementById(hash);
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
+        // 手动更新URL hash
+        window.location.hash = '#' + hash;
       }
     } else {
-      // 如果不在同一页面，先导航再滚动
+      // 如果不在同一页面，使用路由导航
       router.push(path);
     }
   } else {
@@ -204,9 +239,9 @@ const handleNavigation = (path) => {
   position: relative;
   
   &.active {
-    color: #191919;
+    color: #FF0000;
     font-weight: 500;
-    background: #f5f5f5;
+    background: transparent;
   }
 
   &:hover {
