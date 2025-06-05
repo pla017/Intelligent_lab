@@ -18,6 +18,11 @@ const router = createRouter({
       name: "resource",
       component: () => import("@/views/ResourceCenter.vue"),
     },
+    {
+      path: "/about",
+      name: "about",
+      component: () => import("@/views/About.vue"),
+    },
   ],
 });
 
