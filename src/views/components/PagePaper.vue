@@ -46,7 +46,7 @@
 <script setup>
 import { ref, reactive, computed } from "vue";
 import PaperItem from "./PaperItem.vue";
-
+const { englishArticleList, chineseArticleList } = defineProps(["englishArticleList", "chineseArticleList"]);
 // 当前语言
 const language = ref("en");
 
@@ -55,36 +55,36 @@ const currentPage = ref(1);
 const totalItems = ref(100);
 
 // 模拟论文数据
-const papers = reactive([
-  {
-    text: "F Guan, C Zhan, S Li, S Tong, K Peng （2024）Effects of self-compassion on aggression and its psychological mechanism through perceived stress. BMC Psychology 12 (1), 1-12 1",
-  },
+// const papers = reactive([
+//   {
+//     text: "F Guan, C Zhan, S Li, S Tong, K Peng （2024）Effects of self-compassion on aggression and its psychological mechanism through perceived stress. BMC Psychology 12 (1), 1-12 1",
+//   },
 
-  {
-    text: "F Guan, C Zhan, S Li, S Tong, K Peng （2024）Effects of self-compassion on aggression and its psychological mechanism through perceived stress. BMC Psychology 12 (1), 1-12 1",
-  },
-  {
-    text: "F Guan, C Zhan, S Li, S Tong, K Peng （2024）Effects of self-compassion on aggression and its psychological mechanism through perceived stress. BMC Psychology 12 (1), 1-12 1",
-  },
-  {
-    text: "F Guan, C Zhan, S Li, S Tong, K Peng （2024）Effects of self-compassion on aggression and its psychological mechanism through perceived stress. BMC Psychology 12 (1), 1-12 1",
-  },
-  {
-    text: "F Guan, C Zhan, S Li, S Tong, K Peng （2024）Effects of self-compassion on aggression and its psychological mechanism through perceived stress. BMC Psychology 12 (1), 1-12 1",
-  },
-  {
-    text: "F Guan, C Zhan, S Li, S Tong, K Peng （2024）Effects of self-compassion on aggression and its psychological mechanism through perceived stress. BMC Psychology 12 (1), 1-12 1",
-  },
-  {
-    text: "F Guan, C Zhan, S Li, S Tong, K Peng （2024）Effects of self-compassion on aggression and its psychological mechanism through perceived stress. BMC Psychology 12 (1), 1-12 1",
-  },
-]);
+//   {
+//     text: "F Guan, C Zhan, S Li, S Tong, K Peng （2024）Effects of self-compassion on aggression and its psychological mechanism through perceived stress. BMC Psychology 12 (1), 1-12 1",
+//   },
+//   {
+//     text: "F Guan, C Zhan, S Li, S Tong, K Peng （2024）Effects of self-compassion on aggression and its psychological mechanism through perceived stress. BMC Psychology 12 (1), 1-12 1",
+//   },
+//   {
+//     text: "F Guan, C Zhan, S Li, S Tong, K Peng （2024）Effects of self-compassion on aggression and its psychological mechanism through perceived stress. BMC Psychology 12 (1), 1-12 1",
+//   },
+//   {
+//     text: "F Guan, C Zhan, S Li, S Tong, K Peng （2024）Effects of self-compassion on aggression and its psychological mechanism through perceived stress. BMC Psychology 12 (1), 1-12 1",
+//   },
+//   {
+//     text: "F Guan, C Zhan, S Li, S Tong, K Peng （2024）Effects of self-compassion on aggression and its psychological mechanism through perceived stress. BMC Psychology 12 (1), 1-12 1",
+//   },
+//   {
+//     text: "F Guan, C Zhan, S Li, S Tong, K Peng （2024）Effects of self-compassion on aggression and its psychological mechanism through perceived stress. BMC Psychology 12 (1), 1-12 1",
+//   },
+// ]);
 
 // 计算当前页显示的数据
 const currentPageData = computed(() => {
   const start = (currentPage.value - 1) * 10;
   const end = start + 10;
-  return papers.slice(start, end);
+  return language.value === "en" ? englishArticleList.slice(start, end) : chineseArticleList.slice(start, end);
 });
 
 // 处理页码变化

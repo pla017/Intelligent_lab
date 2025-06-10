@@ -6,12 +6,12 @@
       class="recruit-item"
     >
       <div class="date-block">
-        <div class="date-main">{{ item.date }}</div>
-        <div class="date-sub">{{ item.year }}. {{ item.week }}</div>
+        <div class="date-main">{{ formatDate(item.createDate) }}</div>
+        <div class="date-sub">{{ formatYear(item.createDate) }}. {{ formatWeek(item.createDate) }}</div>
       </div>
       <div class="content-block">
         <div class="title">{{ item.title }}</div>
-        <div class="desc">{{ item.desc }}</div>
+        <div class="desc">{{ item.description }}</div>
       </div>
       <div class="arrow-block">
         <div class="arrow-circle">
@@ -31,29 +31,55 @@
 
 <script setup>
 import { ref } from 'vue'
-const recruitList = ref([
-  {
-    date: '02/20',
-    year: '2024',
-    week: 'Mon.',
-    title: '清华大学智能幸福实验室招募科研助理',
-    desc: '实验室的研究方向集中在理解不同心理和社会因素如何共同作用促进个体和群体的心理健康与 幸福。',
+// const recruitList = ref([
+//   {
+//     date: '02/20',
+//     year: '2024',
+//     week: 'Mon.',
+//     title: '清华大学智能幸福实验室招募科研助理',
+//     desc: '实验室的研究方向集中在理解不同心理和社会因素如何共同作用促进个体和群体的心理健康与 幸福。',
+//   },
+//   {
+//     date: '02/20',
+//     year: '2024',
+//     week: 'Mon.',
+//     title: '清华大学智能幸福实验室招募科研助理',
+//     desc: '实验室的研究方向集中在理解不同心理和社会因素如何共同作用促进个体和群体的心理健康与 幸福。',
+//   },
+//   {
+//     date: '02/20',
+//     year: '2024',
+//     week: 'Mon.',
+//     title: '清华大学智能幸福实验室招募科研助理',
+//     desc: '实验室的研究方向集中在理解不同心理和社会因素如何共同作用促进个体和群体的心理健康与 幸福。',
+//   },
+// ])
+
+const { recruitList } = defineProps({
+  recruitList: {
+    type: Array,
+    default: () => [],
   },
-  {
-    date: '02/20',
-    year: '2024',
-    week: 'Mon.',
-    title: '清华大学智能幸福实验室招募科研助理',
-    desc: '实验室的研究方向集中在理解不同心理和社会因素如何共同作用促进个体和群体的心理健康与 幸福。',
-  },
-  {
-    date: '02/20',
-    year: '2024',
-    week: 'Mon.',
-    title: '清华大学智能幸福实验室招募科研助理',
-    desc: '实验室的研究方向集中在理解不同心理和社会因素如何共同作用促进个体和群体的心理健康与 幸福。',
-  },
-])
+});
+
+const formatDate = (date) => {
+  // date: "2024-02-20"
+  const d = new Date(date);
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${month}/${day}`;
+};
+
+const formatYear = (date) => {
+  const d = new Date(date);
+  return d.getFullYear();
+};
+
+const formatWeek = (date) => {
+  const d = new Date(date);
+  const weekArr = ['Sun.', 'Mon.', 'Tue.', 'Wed.', 'Thu.', 'Fri.', 'Sat.'];
+  return weekArr[d.getDay()];
+};
 </script>
 
 <style scoped lang="scss">

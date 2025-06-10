@@ -1,15 +1,15 @@
 <template>
   <div class="alumni">
-    <img src="@/assets/imgs/boshi/keluoma.png" alt="" />
+    <img :src="info?.avatar" alt="" />
     <div class="alumni-box">
       <div class="vertical-line"></div>
       <div class="alumni-info">
         <div class="alumni-name">
-          <span class="name">柯罗⻢</span>
-          <span>普博</span>
+          <span class="name">{{ info?.pName }}</span>
+          <span>{{ info?.identity }}</span>
         </div>
         <div class="desc">
-          校一等奖学金获得者，学术之路金牌讲师，“未来社计师”研究资助者，专注人工智能心理学与积极心理学研究。
+          {{ info?.domain }}
         </div>
       </div>
     </div>
@@ -17,6 +17,7 @@
 </template>
 <script setup>
 import { ref, reactive } from "vue";
+const { info } = defineProps(["info"]);
 </script>
 <style scoped lang="scss">
 .alumni {
@@ -24,7 +25,7 @@ import { ref, reactive } from "vue";
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   gap: 20px;
   img {
     height: 100px;

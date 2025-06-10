@@ -1,21 +1,33 @@
 <template>
   <div class="dynamic-container">
-    <img src="@/assets/imgs/meihaorensheng.png" alt="" />
+    <img :src="dynamic.img" alt="" />
     <div class="dynamic-content">
-      <span class="title">重要公告：此处填写标题</span>
+      <span class="title">{{ dynamic.title }}</span>
       <div class="content">
         <span>
-          实验室的研究⽅向集中在理解不同⼼理和社会因素如何共同作⽤促进个体和群体的⼼理健康与
-          幸福，尤其是如何在全球化和⽂化多样化背景下，促进社会融合增强幸福感 实验室的研究⽅向集中在理解不同⼼理和社会因素如何共同作⽤促进个体和群体的⼼理健康与
-          幸福。</span
-        >
-        <span>2025.01.30</span>
+          {{ dynamic.description }}
+        </span>
+        <span>{{ formatDate(dynamic.pDate) }}</span>
       </div>
     </div>
   </div>
 </template>
 <script setup>
 import { ref, reactive } from "vue";
+
+const { dynamic } = defineProps({
+  dynamic: {
+    type: Object,
+    default: () => {},
+  },
+});
+
+const formatDate = (date) => {
+  const datePart = date.slice(0, 10);
+  const [year, month, day] = datePart.split('-');
+  return `${year}.${month}.${day}`;
+};
+
 </script>
 <style scoped lang="scss">
 .dynamic-container {

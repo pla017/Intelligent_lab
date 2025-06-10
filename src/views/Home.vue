@@ -44,33 +44,17 @@
         <TopTitle title="principal" subTitle="负责人" />
         <div class="lab-leader-content">
           <div class="content-box">
-            <div class="leader-box">
-              <img src="@/assets/imgs/pen.png" alt="" />
+            <div class="leader-box" v-for="item in leaderList" :key="item.id">
+              <img :src="item.avatar" alt="" />
               <div class="leader-info">
                 <div class="leader-name">
-                  <span class="name">彭凯平</span>
-                  <span>教授</span>
+                  <span class="name">{{ item.pName }}</span>
+                  <span>{{ item.identity }}</span>
                 </div>
                 <div class="line"></div>
-                <span>清华大学社科学院院长｜智能幸福实验室主任</span>
+                <span>{{ item.position }}</span>
                 <div class="positon">
-                  <span>文化/社会心理学</span>
-                  <span>积极心理学、AI心理学</span>
-                </div>
-              </div>
-            </div>
-            <div class="leader-box">
-              <img src="@/assets/imgs/pen.png" alt="" />
-              <div class="leader-info">
-                <div class="leader-name">
-                  <span class="name">彭凯平</span>
-                  <span>教授</span>
-                </div>
-                <div class="line"></div>
-                <span>清华大学社科学院院长｜智能幸福实验室主任</span>
-                <div class="positon">
-                  <span>文化/社会心理学</span>
-                  <span>积极心理学、AI心理学</span>
+                  <span>{{ item.domain }}</span>
                 </div>
               </div>
             </div>
@@ -81,7 +65,7 @@
       <div class="alumni-container">
         <TopTitle title="phd candidate" subTitle="在读博士" />
         <div class="alumni-content">
-          <Alumni v-for="(item, index) in 7" :key="index" />
+            <Alumni v-for="(item, index) in postgraduateList" :info="item" :key="index" />
         </div>
       </div>
 
@@ -89,7 +73,7 @@
       <div class="alumni-container">
         <TopTitle title="postgraduate" subTitle="在读硕士" />
         <div class="alumni-content">
-          <Alumni v-for="(item, index) in 6" :key="index" />
+          <Alumni v-for="(item, index) in masterList" :info="item"  :key="index" />
         </div>
       </div>
 
@@ -97,7 +81,7 @@
       <div class="alumni-container">
         <TopTitle title="Research assistant" subTitle="研究助理" />
         <div class="alumni-content">
-          <Alumni v-for="(item, index) in 4" :key="index" />
+          <Alumni v-for="(item, index) in researchAssistantList" :info="item"  :key="index" />
         </div>
       </div>
 
@@ -105,7 +89,7 @@
       <div class="alumni-container">
         <TopTitle title="alumnus" subTitle="毕业校友" />
         <div class="alumni-content">
-          <Alumni v-for="(item, index) in 8" :key="index" />
+          <Alumni v-for="(item, index) in alumniList" :info="item"  :key="index" />
         </div>
       </div>
 
@@ -123,7 +107,7 @@
       <div class="dynamic-container">
         <TopTitle title="dynamic condition" subTitle="动态" />
         <div class="dynamic-content">
-          <Dynamic v-for="(item, index) in 4" :key="index" />
+          <Dynamic v-for="(item, index) in dynamicList" :dynamic="item" :key="index" />
         </div>
       </div>
     </div>
@@ -132,15 +116,49 @@
 
 <script setup>
 import SwiperImg from "@/components/SwiperImg.vue";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import img from "@/assets/imgs/top.png";
 import TopTitle from "@/components/TopTitle.vue";
 import Alumni from "./components/Alumni.vue";
 import GrwthSwiper from "./components/GrwthSwiper.vue";
 import IntroduceVideo from "./components/introduceVideo.vue";
 import Dynamic from "./components/Dynamic.vue";
-import TitleText from './components/TitleText.vue'
+import TitleText from "./components/TitleText.vue";
+import { personInfo, dynamic } from "@/api/home.js";
 let imgs = ref([img, img, img]);
+
+// 添加响应式数据
+const personList = ref([]);
+
+let leaderList = ref([]);
+//在读博士
+let postgraduateList = ref([]); 
+//在读硕士
+let masterList = ref([]);
+
+//研究助理
+let researchAssistantList = ref([]);
+//毕业校友
+let alumniList = ref([]);
+
+let dynamicList = ref([]);
+
+onMounted(async () => {
+  const { code, rows } = await personInfo();
+  if (code === 200) {
+    personList.value = rows;
+  }
+  leaderList.value = personList.value.filter((item) => item.type === 1);
+  postgraduateList.value = personList.value.filter((item) => item.type === 2);
+  masterList.value = personList.value.filter((item) => item.type === 3);
+  researchAssistantList.value = personList.value.filter((item) => item.type === 4);
+  console.log(researchAssistantList.value);
+  alumniList.value = personList.value.filter((item) => item.type === 5);
+  const { code: code1, rows: rows1 } = await dynamic();
+  if (code === 200) {
+    dynamicList.value = rows1;
+  }
+});
 </script>
 
 <style scoped lang="scss">

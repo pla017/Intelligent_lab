@@ -21,7 +21,7 @@
       </div>
       <div class="form-group">
         <label>意见</label>
-        <el-input v-model="form.comment" class="underline-input" type="textarea" :rows="3" clearable />
+        <el-input v-model="form.opinion" class="underline-input" type="textarea" :rows="3" clearable />
       </div>
       <div class="submit-btn-wrapper">
         <button type="submit">提交</button>
@@ -31,19 +31,33 @@
 </template>
 <script setup>
 import { reactive } from 'vue'
-import { ElInput } from 'element-plus'
+import { ElInput, ElMessage } from 'element-plus'
+import { addContact } from '@/api/home.js'
 
 const form = reactive({
   name: '',
   phone: '',
   email: '',
   address: '',
-  comment: ''
+  opinion: ''
 })
+
+function resetForm() {
+  form.name = ''
+  form.phone = ''
+  form.email = ''
+  form.address = ''
+  form.opinion = ''
+}
 
 function handleSubmit() {
   // 这里可以处理表单提交逻辑
-  alert('提交成功！')
+  addContact(form).then(res => {
+    if (res.code === 200) {
+      ElMessage.success('提交成功！')
+      resetForm()
+    }
+  })
 }
 </script>
 <style scoped lang='scss'>

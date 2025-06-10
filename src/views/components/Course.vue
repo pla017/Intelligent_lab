@@ -2,7 +2,7 @@
   <div class="course">
     <img :src="icon" alt="" />
     <div class="course-item">
-      <span>{{ title }}</span>
+      <span>《{{ title }}》</span>
       <span>{{ desc }}</span>
       <span>授课教师：{{ teacher }}</span>
     </div>

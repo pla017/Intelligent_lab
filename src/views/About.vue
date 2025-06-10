@@ -6,13 +6,13 @@
 
     <div class="About-content">
       <!-- 实验活动 -->
-      <div class="experiment-activity">
+      <div class="experiment-activity" id="experiment">
         <TopTitle title="experiment activity" subTitle="实验活动" />
         <div class="experiment-activity-content"></div>
       </div>
 
       <!-- 合作机会 -->
-      <div class="cooperation-opportunity">
+      <div class="cooperation-opportunity" id="join">
         <TopTitle title="cooperation opportunity" subTitle="合作机会" />
         <div class="cooperation-opportunity-content">
           <div
@@ -50,19 +50,19 @@
       </div>
 
       <!-- 合作名单列表 -->
-      <div class="cooperation-list">
+      <div class="cooperation-list" id="list">
         <TopTitle title="cooperation list" subTitle="合作名单列表" />
         <PartnerSchool />
       </div>
 
       <!-- 人才招募 -->
-      <div class="recruitment">
+      <div class="recruitment" id="recruit">
         <TopTitle title="Talent recruitment" subTitle="人才招募" />
-        <RecruiIList />
+        <RecruiIList :recruitList="recruitList" />
       </div>
 
       <!-- 联系我们 -->
-      <div class="contact-us">
+      <div class="contact-us" id="contact">
         <TopTitle title="contact us" subTitle="联系我们" />
         <ContactUs />
       </div>
@@ -72,7 +72,7 @@
   </div>
 </template>
 <script setup>
-import { ref, reactive } from "vue";
+import { ref, reactive, onMounted } from "vue";
 import TopTitle from "@/components/TopTitle.vue";
 import TitleText from "./components/TitleText.vue";
 
@@ -83,7 +83,7 @@ import PartnerSchool from "./components/PartnerSchool.vue";
 import RecruiIList from "./components/RecruiIList.vue";
 import ContactUs from "./components/ContactUs.vue";
 import Map from "./components/Map.vue";
-
+import { recruit } from "@/api/home.js";
 let hoverIndex = ref(-1);
 
 let cooperationList = ref([
@@ -118,6 +118,15 @@ let cooperationList = ref([
     },
   },
 ]);
+
+let recruitList = ref([]);
+
+onMounted(async () => {
+  const { code, rows } = await recruit();
+  if (code === 200) {
+    recruitList.value = rows;
+  }
+});
 </script>
 <style scoped lang="scss">
 .dropdown-arrow {

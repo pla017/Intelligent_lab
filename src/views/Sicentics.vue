@@ -72,7 +72,7 @@
       <!-- 论文发表 -->
       <div class="scicentics-paper" ref="papers" id="papers">
         <TopTitle title="Paper publication" subTitle="论文发表" />
-        <PagePaper />
+        <PagePaper :englishArticleList="englishArticleList" :chineseArticleList="chineseArticleList" />
       </div>
     </div>
   </div>
@@ -83,11 +83,12 @@ import TitleText from "./components/TitleText.vue";
 import TopTitle from "@/components/TopTitle.vue";
 import PagePaper from "./components/PagePaper.vue";
 import { useRoute } from 'vue-router';
-
+import { englishArticle, chineseArticle } from "@/api/home.js";
 const route = useRoute();
 const currentResearch = ref(null);
 const papers = ref(null);
-
+const englishArticleList = ref([]);
+const chineseArticleList = ref([]);
 // 处理页面滚动
 const scrollToSection = (section) => {
   const element = section === 'current' ? currentResearch.value : papers.value;
@@ -103,6 +104,17 @@ onMounted(() => {
     scrollToSection('current');
   } else if (hash === '#papers') {
     scrollToSection('papers');
+  }
+});
+
+onMounted(async () => {
+  const { code: code1, rows: rows1 } = await englishArticle();
+  if (code1 === 200) {
+    englishArticleList.value = rows1;
+  }
+  const { code, rows } = await chineseArticle();
+  if (code === 200) {
+    chineseArticleList.value = rows;
   }
 });
 </script>

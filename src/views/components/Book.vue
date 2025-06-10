@@ -1,11 +1,11 @@
 <template>
   <div class="Book">
-    <img :src="book.icon" alt="" />
+    <img :src="book.img" alt="" />
     <div class="book-item">
       <span>{{ book.title }}</span>
       <span>作者：{{ book.author }}</span>
       <span
-        >{{ book.desc }}</span
+        >{{ book.description }}</span
       >
     </div>
   </div>
@@ -13,7 +13,7 @@
 <script setup>
 import { ref, reactive } from "vue";
 
-const props = defineProps({
+const { book } = defineProps({
   book: {
     type: Object,
     default: () => ({}),

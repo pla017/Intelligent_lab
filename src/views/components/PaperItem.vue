@@ -2,15 +2,15 @@
   <div class="paper-item">
     <div class="paper-index">{{ String(index).padStart(2, "0") }}</div>
     <div class="paper-content">
-      <div class="paper-text">
-        {{ paper.text }}
+      <div class="paper-text" v-html="paper.content">
+     
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-defineProps({
+let { paper, index } = defineProps({
   paper: {
     type: Object,
     required: true,
