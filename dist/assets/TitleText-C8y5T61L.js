@@ -1,0 +1,1 @@
+import"./home-DODnzVPy.js";import{_ as s,e as o,f as a,j as t}from"./index-Bz0PKLwq.js";const l={class:"top-title-text"},n={__name:"TitleText",setup(p){return(_,e)=>(a(),o("div",l,e[0]||(e[0]=[t("div",{class:"top-title"},[t("span",null,"认知 ｜ 行为 ｜ 生活"),t("span",null,"AI FOR WELLBEING LAB"),t("span",null,"智能幸福实验室")],-1)])))}},i=s(n,[["__scopeId","data-v-c5590900"]]);export{i as T};
